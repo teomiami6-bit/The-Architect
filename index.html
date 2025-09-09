@@ -1,43 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Architect AI</title>
   <style>
+    :root { --bg1:#0f172a; --bg2:#1e293b; --fg:#fff; --muted:#94a3b8; }
+    html,body { height:100%; margin:0; }
     body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: white;
-      text-align: center;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--fg); font-family: Arial, sans-serif;
+      display:flex; flex-direction:column;
     }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
+    header {
+      padding:16px; text-align:center; font-weight:700; font-size:20px;
+      border-bottom:1px solid rgba(255,255,255,.08); backdrop-filter: blur(2px);
     }
+    .shell { position:relative; flex:1; }
     iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 600px;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      position:absolute; inset:0; width:100%; height:100%; border:0; display:none;
+    }
+    .loader {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px;
+    }
+    .spinner {
+      width:40px; height:40px; border-radius:50%;
+      border:4px solid rgba(255,255,255,.2);
+      border-top-color: var(--fg);
+      animation: spin 1s linear infinite;
+    }
+    .hint { color: var(--muted); font-size:14px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fallback {
+      display:none; margin-top:12px;
+      background:#0b0b0b; color:#fff; border:1px solid rgba(255,255,255,.15);
+      padding:10px 14px; border-radius:8px; text-decoration:none;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to The Architect AI</h1>
-  <p>Your execution partner, built into this app.</p>
-  
-  <iframe 
-    src="https://www.chatbase.co/chatbot-iframe/gk85kF7l60XumJI8rb54E" 
-    allow="clipboard-write; clipboard-read">
-  </iframe>
+  <header>🧠 The Architect — Your Execution Partner</header>
+
+  <div class="shell">
+    <div id="loader" class="loader">
+      <div class="spinner"></div>
+      <div>Preparing your execution system…</div>
+      <div class="hint">If it takes too long, use the direct link below.</div>
+      <a id="fallbackLink" class="fallback" href="#" target="_blank" rel="noopener">Open in a new tab</a>
+    </div>
+
+    <!-- replace the src with your Chatbase iframe link -->
+    <iframe
+      id="bot"
+      src="https://www.chatbase.co/chatbot-iframe/gk85kF7l60XumJI8rb54E"
+      allow="clipboard-write; microphone; autoplay"
+      referrerpolicy="no-referrer"
+      loading="eager">
+    </iframe>
+  </div>
+
+  <script>
+    const iframe = document.getElementById('bot');
+    const loader = document.getElementById('loader');
+    const fallback = document.getElementById('fallbackLink');
+    fallback.href = iframe.src;
+
+    // show fallback button after 4s (in case embedding is slow)
+    const showFallbackTimer = setTimeout(()=>{ fallback.style.display='inline-block'; }, 4000);
+
+    // when the bot loads, hide loader and show iframe
+    iframe.addEventListener('load', () => {
+      clearTimeout(showFallbackTimer);
+      loader.style.display = 'none';
+      iframe.style.display = 'block';
+    });
+  </script>
 </body>
 </html>
