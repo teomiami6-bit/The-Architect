@@ -21,18 +21,23 @@
       font-size: 2.5rem;
       margin-bottom: 20px;
     }
+    iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 600px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
   <h1>Welcome to The Architect AI</h1>
   <p>Your execution partner, built into this app.</p>
-
-  <!-- Chatbase Widget -->
-  <script>
-    window.chatbaseConfig = {
-      chatbotId: "gk85kF7l60XumJI8rb54E", 
-    };
-  </script>
-  <script src="https://www.chatbase.co/embed.min.js" id="chatbase-script" defer></script>
+  
+  <iframe 
+    src="https://www.chatbase.co/chatbot-iframe/gk85kF7l60XumJI8rb54E" 
+    allow="clipboard-write; clipboard-read">
+  </iframe>
 </body>
 </html>
